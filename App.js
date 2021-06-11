@@ -19,10 +19,11 @@ export default function App() {
   }, []);
 
   async function loadBusstopData() {
+    setLoading(true);
     const response = await fetch(BUSSTOP_URL);
     const responseData = await response.json();
     const busData = responseData.services.filter(
-      (service) => service.no === "150"
+      (service) => service.no === "155"
     )[0];
     setDisplayTime(busData.next.time);
     setLoading(false);
@@ -34,7 +35,7 @@ export default function App() {
       <Text style={styles.time}>
         {loading ? <ActivityIndicator size="large" /> : displayTime}
       </Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={loadBusstopData} style={styles.button}>
         <Text style={styles.buttonText}>Refresh!</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
