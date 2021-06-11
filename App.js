@@ -16,6 +16,9 @@ export default function App() {
 
   useEffect(() => {
     loadBusstopData();
+    const interval = setInterval(loadBusstopData, 10000);
+
+    return () => clearInterval(interval); // unmount
   }, []);
 
   async function loadBusstopData() {
@@ -25,7 +28,7 @@ export default function App() {
     const busData = responseData.services.filter(
       (service) => service.no === "155"
     )[0];
-    setDisplayTime(busData.next.time);
+    setDisplayTime(busData.next.duration_ms);
     setLoading(false);
   }
 
