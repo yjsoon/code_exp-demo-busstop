@@ -14,15 +14,14 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("lalalala");
     loadBusstopData();
   }, []);
 
-  function loadBusstopData() {
-    fetch(BUSSTOP_URL)
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log(responseData);
-      });
+  async function loadBusstopData() {
+    const response = await fetch(BUSSTOP_URL);
+    const responseData = await response.json();
+    console.log(responseData);
   }
 
   return (
