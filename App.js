@@ -1,11 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
+const BUSSTOP_URL = "https://arrivelah2.busrouter.sg/?id=83139";
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadBusstopData();
+  }, []);
+
+  function loadBusstopData() {
+    fetch(BUSSTOP_URL)
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
+      });
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text style={styles.title}>Bus arrival time:</Text>
+      <Text style={styles.time}>
+        {loading ? <ActivityIndicator size="large" /> : "Loaded"}
+      </Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Refresh!</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
@@ -14,8 +42,24 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 36,
+  },
+  time: {
+    fontSize: 48,
+    margin: 24,
+  },
+  button: {
+    backgroundColor: "green",
+    padding: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
